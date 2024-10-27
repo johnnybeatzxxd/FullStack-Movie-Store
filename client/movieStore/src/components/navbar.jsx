@@ -4,15 +4,15 @@ import searchIcon from '../assets/icons/search.svg';
 export const NavBar = () => {
     return(
     <Navbar>
-        <Logo>Movie<Logo style={{display:'inline',color:'red'}}>S</Logo>tore</Logo>
+        <Logo onClick={()=>{window.location.href = '/'}}>Movie<Logo style={{display:'inline',color:'red'}}>S</Logo>tore</Logo>
         <Spacer />
         <SearchBar>
             <img src={searchIcon} alt="Search" style={{ height: '20px'}} />
             <SearchInput placeholder="Find Movies & Tv"></SearchInput>
         </SearchBar>
         <Tabs>
-            <Tab>Movies</Tab>
-            <Tab>Tv Shows</Tab>
+            <Tab onClick={()=>{window.location.href = '/movies'}}>Movies</Tab>
+            <Tab>TV Shows</Tab>
             <Tab>Favorites</Tab>
             <Tab>Profile</Tab>
         </Tabs>
@@ -35,6 +35,7 @@ const Logo = styled.p`
     font-weight: 400;
     font-size: 1.5rem;
     font-family: "DM Serif Text", serif;
+    cursor: pointer;
 `
 
 const Spacer = styled.div`
@@ -74,11 +75,11 @@ const Tabs = styled.div`
     justify-content: space-around;
     border: 0px solid white;
     height: 100%;
-    width: 40%;
+    width: 35%;
     margin-left: auto;
     color: #ffffff;
-    font-weight: bolder;
-    font-family: "DM Serif Text", serif;
+    font-weight: 500;
+
 `
 const Tab = styled.div`
     cursor: pointer;
@@ -86,3 +87,4 @@ const Tab = styled.div`
         color: red;
     }
 `
+

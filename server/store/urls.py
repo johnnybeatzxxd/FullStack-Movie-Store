@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 urlpatterns = [
-    path('get-top-100', views.fetch_100, name='fetch'),
+    path('movies/top100', views.AllMovies, name='fetch'),
     # path('signup', views.signup, name='signup'),
     
 ]
