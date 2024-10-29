@@ -6,12 +6,30 @@ import { FilterBar } from "../components/filterbar";
 import { UserContext } from "../App"
 import { LoadingIndicator } from "../components/loading";
 import { MoviesList } from "../components/movielist";
+import backArrow from '../assets/icons/back_arrow.svg'; 
+import nextArrow from '../assets/icons/next_arrow.svg'; 
 
 export const MoviesPage = () => {
     const { movies, setMovies } = useContext(UserContext);
-    const [filter,setFilter] = useState("All"); 
+    const [filter, setFilter] = useState("All"); 
     const [isLoading, setIsLoading] = useState(true);
-   
+    const [selectedPage, setSelectedPage] = useState(1);
+    const [pages, setPages] = useState([]);
+
+    useEffect(()=>{
+        const queryParams = new URLSearchParams(window.location.search);
+        const pageNum = queryParams.get('page');
+        const pageGenre = queryParams.get('genre');
+        console.log(pageNum,pageGenre);
+        if (pageNum) setSelectedPage(pageNum);
+        if (pageGenre) setFilter(pageGenre);
+    },[])
+    useEffect(() => {
+        const totalPages = Math.ceil((movies?.length || 0) / 25);
+        const pagesArray = Array.from({ length: totalPages }, (_, i) => i + 1);
+        setPages(pagesArray);
+    }, [movies]);
+
     useEffect(() => {
         const fetchTop100Movies = async () => {
             try {
@@ -27,16 +45,61 @@ export const MoviesPage = () => {
         };
         fetchTop100Movies();
     }, [filter]);
+
+    useEffect(() => {
+        window.history.pushState({}, '', `/movies?page=${selectedPage}`);
+        window.scrollTo(0, 0);
+    }, [selectedPage]);
+
     if (isLoading) {
         return <LoadingIndicator></LoadingIndicator>;
     }
+    const moviesPerPage = 25;
+    const startIndex = (selectedPage - 1) * moviesPerPage;
+    const endIndex = startIndex + moviesPerPage;
+    const moviesToDisplay = movies.slice(startIndex, endIndex);
 
     return (
         <MoviesContainer>
             <NavBar></NavBar>
             <FilterBar setFilter={setFilter}></FilterBar>
-            <MoviesList movies={movies} type={"Movie"}></MoviesList>
-
+            <MoviesList movies={moviesToDisplay} type={"Movie"} setSelectedPage={setSelectedPage}/>
+            
+            <Pagination>
+                <PageArrow 
+                    src={backArrow}
+                    onClick={() => {
+                        if (selectedPage > 1){
+                            window.scrollTo(0, 0); 
+                            setSelectedPage(Number(selectedPage) - 1);
+                            
+                            
+                        };
+                    }}
+                />
+                {
+                
+                pages.map((pageNum) => (
+            
+                    <Page 
+                        style={selectedPage === pageNum ? { border: "1px solid red" } : {}}
+                        onClick={() => {  
+                            setSelectedPage(pageNum);
+                        }}
+                        key={pageNum}
+                    >
+                        {pageNum}
+                    </Page>
+                ))}
+                <PageArrow
+                    onClick={() => {
+                        if (selectedPage < pages.length){
+                            setSelectedPage(Number(selectedPage) + 1);
+                        }
+                    }}
+                    src={nextArrow}
+                />
+            </Pagination>
         </MoviesContainer>
     )
 }
@@ -45,7 +108,7 @@ const MoviesContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    height: 100vh;
+    height: 150vh;
     width: 100vw;
     background-image: url('https://www.plex.tv/wp-content/uploads/2024/01/Watch-Free-Hero-2048x1152-3-1440x810.png');
     color: white; 
@@ -66,4 +129,36 @@ const MoviesContainer = styled.div`
         position: relative;
         z-index: 2; 
     }
+`
+const Pagination = styled.div`
+    display: flex;
+    width: auto;
+    border: 0px solid #ff00006c;
+    border-radius: 20px;
+    height: 50px; 
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; 
+    flex-shrink: 0;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    padding: 12px;
+    gap: 10px;
+    overflow-x: hidden; 
+    overflow-y: hidden;
+`
+const Page = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px; 
+    height: 15px;   
+    font-size: small;
+    border: 0px solid red;
+    border-radius: 50%;
+    padding: 5px; 
+    cursor: pointer;
+`
+const PageArrow = styled.img`  
+    cursor: pointer;
 `

@@ -1,45 +1,44 @@
 import styled from "styled-components";
 
 export const MoviesList = ({movies, type})=>{
+    const maxMoviesToShow = 25;
+    const moviesToShow = movies.slice(0, maxMoviesToShow);
+    const numberOfRows = Math.ceil(moviesToShow.length / 5);
+
     return (
-    <Body>
-        {(() => {
-            let col = 0;
-            let row = 1;
-            const maxMoviesToShow = 25; 
-            return movies.slice(0, maxMoviesToShow).map((movie, index) => {
-                col++;
-                if (col > 5) {
-                    col = 1;
-                    row++;
-                }
-                return (
-                <Card
-                    style={{ gridColumn: col, gridRow: row }}
-                    onClick={() => window.location.href = `/details?id=${movie.id}&category=${type}`}
-                    key={index}>
-                    <MovieImage src={movie["big_image"]}></MovieImage>
-                    <Description>{movie["title"]}<br/>
-                        <span style={{color:"grey"}}>{movie["year"]}</span>
-                    </Description>
-                </Card>);
-            });
-        })()}
-    </Body>)
+        <>
+            <Body numberOfRows={numberOfRows}>
+                {moviesToShow.map((movie, index) => {
+                    const col = (index % 5) + 1;
+                    const row = Math.floor(index / 5) + 1;
+                    return (
+                    <Card
+                        style={{ gridColumn: col, gridRow: row }}
+                        onClick={() => window.location.href = `/details?id=${movie.id}&category=${type}`}
+                        key={index}>
+                        <MovieImage src={movie["big_image"]}></MovieImage>
+                        <Description>{movie["title"]}<br/>
+                            <span style={{color:"grey"}}>{movie["year"]}</span>
+                        </Description>
+                    </Card>);
+                })}
+            </Body>
+            
+        </>
+    )
 }
 
 const Body = styled.div`
     display: grid;
     flex: 1;
     border: 0px solid white;
-    min-height: 100%; 
+    height: auto; 
     width: 100%;
     grid-template-columns: repeat(5, 18%); 
-    grid-template-rows: repeat(6, 380px); 
+    grid-template-rows: ${({ numberOfRows }) => `repeat(${numberOfRows}, 380px)`}; 
     grid-gap: 30px;
     padding-top: 20px;
     overflow-y: auto;
-
     overflow-x: hidden;
 `
 
@@ -76,4 +75,13 @@ const Description = styled.div`
     justify-content: center;
     align-items: start;
     font-family: "Merriweather", serif;
+`
+const Pagination = styled.div`
+    display:flex;
+    flex: 1;
+    border: 2px solid white;
+    width: 100%;
+    height:100%;
+    background-color: transparent;
+
 `
