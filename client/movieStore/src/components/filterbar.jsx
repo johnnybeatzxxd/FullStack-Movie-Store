@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 
-export const FilterBar = ()=>{
-    const [geners,setGeners] = useState(["All","Animation","Crime","Drama","Adventure","Family","Biography","History","Comedy","War","Action","Thriller","Sci-Fi","Fantasy","Romance","Musical","Mystery"])
+export const FilterBar = ({setFilter})=>{
+    const [selectedTab,setSelectedTab] = useState("All");
+    const [genres,setGenres] = useState(["All","Animation","Crime","Drama","Adventure","Family","Biography","History","Comedy","War","Action","Thriller","Sci-Fi","Fantasy","Romance","Musical","Mystery"])
     useEffect(() => {
         const handleWheel = (e) => {
             const tabs = document.querySelector(".tabs-container");
@@ -19,7 +20,12 @@ export const FilterBar = ()=>{
     }, []);
     return (
             <Tabs className="tabs-container">
-                {geners.map((gener, index) => (<Tab key={index}>{gener}</Tab>))}
+                {genres.map((genre, index) => (
+                    <Tab 
+                        style={selectedTab == genre?{color:"balck",background:"red",outline:"none"}:{}}
+                        onClick={()=>{setSelectedTab(genre);setFilter(genre)}}
+                        key={index}>{genre}</Tab>
+                ))}
             </Tabs>
     )
 }
