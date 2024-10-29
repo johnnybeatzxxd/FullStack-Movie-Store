@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import searchIcon from '../assets/icons/search.svg'; 
+import { useContext } from "react";
+import { UserContext } from "../App";
 
+const FrontendUrl = import.meta.env.VITE_FRONTEND_URL || '../'; 
 export const NavBar = () => {
+    const {selectedTab,setSelectedTab} = useContext(UserContext);
     return(
     <Navbar>
         <Logo onClick={()=>{window.location.href = '/'}}>Movie<Logo style={{display:'inline',color:'red'}}>S</Logo>tore</Logo>
@@ -11,10 +15,24 @@ export const NavBar = () => {
             <SearchInput placeholder="Find Movies & Tv"></SearchInput>
         </SearchBar>
         <Tabs>
-            <Tab onClick={()=>{window.location.href = '/movies'}}>Movies</Tab>
-            <Tab>TV Shows</Tab>
-            <Tab>Favorites</Tab>
-            <Tab>Profile</Tab>
+            <Tab 
+                onClick={()=>{window.location.href = '/movies';}}
+                style={window.location.href==`${FrontendUrl}/movies`?{color:"red"}:{}}>
+                Movies
+            </Tab>
+            <Tab 
+                onClick={()=>{window.location.href = '/tv';}}
+                style={window.location.href==`${FrontendUrl}/tv`?{color:"red"}:{}}>
+                TV Shows
+            </Tab>
+            <Tab 
+                style={window.location.href==`${FrontendUrl}/favorites`?{color:"red"}:{}}>
+                Favorites
+            </Tab>
+            <Tab 
+                style={window.location.href==`${FrontendUrl}/profile`?{color:"red"}:{}}>
+                Profile
+            </Tab>
         </Tabs>
     </Navbar>
     )
@@ -55,6 +73,12 @@ const SearchBar = styled.div`
     border: 1px solid transparent;
     height: 27px;
     width: 23%;
+    @media (max-width: 560px) { 
+        flex: 1;
+        width:auto;
+        margin-right: 60px;
+        margin-left: 20px;
+    }
 `
 
 const SearchInput = styled.input`
@@ -66,6 +90,7 @@ const SearchInput = styled.input`
         outline: none;
         border: none;
     }
+   
 `
 
 const Tabs = styled.div`
@@ -80,6 +105,9 @@ const Tabs = styled.div`
     color: #ffffff;
     font-weight: 500;
 
+    @media (max-width: 790px) { 
+        display: none;
+    }
 `
 const Tab = styled.div`
     cursor: pointer;
