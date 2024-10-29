@@ -4,15 +4,18 @@ import { useEffect, useContext, useState } from "react";
 import { getTopMovies } from "../utils/fetch-data";
 import { FilterBar } from "../components/filterbar";
 import { UserContext } from "../App"
+import { LoadingIndicator } from "../components/loading";
+import { MoviesList } from "../components/movielist";
 
 export const MoviesPage = () => {
-    const { movies, setMovies } = useContext(UserContext); 
+    const { movies, setMovies } = useContext(UserContext);
+    const [filter,setFilter] = useState("All"); 
     const [isLoading, setIsLoading] = useState(true);
    
     useEffect(() => {
         const fetchTop100Movies = async () => {
             try {
-                const topMovies = await getTopMovies();
+                const topMovies = await getTopMovies(filter);
                 console.log('Top Movies:', topMovies);
                 setMovies(topMovies);
             } catch (error) {
@@ -23,38 +26,17 @@ export const MoviesPage = () => {
             }
         };
         fetchTop100Movies();
-    }, []);
+    }, [filter]);
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <LoadingIndicator></LoadingIndicator>;
     }
 
     return (
         <MoviesContainer>
             <NavBar></NavBar>
-            <FilterBar></FilterBar>
-           
-            <Body>
-                <div style={{ display: "flex", flex: 1, border: "2px solid white" }}>hellow world</div>
-                {(() => {
-                    let col = 0;
-                    let row = 1;
-                    const maxMoviesToShow = 25; 
-                    return movies.slice(0, maxMoviesToShow).map((movie, index) => {
-                        col++;
-                        if (col > 5) {
-                            col = 1;
-                            row++;
-                        }
-                        return (
-                        <Card style={{ gridColumn: col, gridRow: row }} key={index}>
-                            <MovieImage src={movie["big_image"]}></MovieImage>
-                            <Description>{movie["title"]}<br/>
-                                <span style={{color:"grey"}}>{movie["year"]}</span>
-                            </Description>
-                        </Card>);
-                    });
-                })()}
-            </Body>
+            <FilterBar setFilter={setFilter}></FilterBar>
+            <MoviesList movies={movies} type={"Movie"}></MoviesList>
+
         </MoviesContainer>
     )
 }
@@ -84,50 +66,4 @@ const MoviesContainer = styled.div`
         position: relative;
         z-index: 2; 
     }
-`
-const Body = styled.div`
-    display: grid;
-    flex: 1;
-    border: 0px solid white;
-    min-height: 100%; 
-    width: 100%;
-    grid-template-columns: repeat(5, 18%); 
-    grid-template-rows: repeat(6, 380px); 
-    grid-gap: 30px;
-    padding-top: 20px;
-    overflow-y: auto;
-`
-
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    border: 0.5px solid lightgray;
-    border-radius: 16px;
-    cursor: pointer;
-    flex: 1;
-    &:hover{
-        border: 0.5px solid red;
-        color: red;
-        transform: scale(1.06);
-    
-    }
-`
-const MovieImage = styled.img`
-    display: flex;
-    height: 80%;
-    margin-bottom: 10px;
-    width: 100%;
-    border-radius: 16px 16px 5px 5px;
-    transition: transform 0.3s ease; // Smooth transition for zoom effect
-
-`
-const Description = styled.div`
-    display: flex;
-    flex: 1;
-    border:0px solid red;
-    padding: 8px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    font-family: "Merriweather", serif;
 `
