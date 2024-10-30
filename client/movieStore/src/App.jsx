@@ -5,7 +5,9 @@ import { Signup } from './pages/singup'
 import { Home } from './pages/home'
 import { MoviesPage } from './pages/movies'
 import { is_authorized } from './utils/authentication'
-import styled from 'styled-components'
+import { LoadingIndicator } from './components/loading'
+import { SeriesPage } from './pages/series'
+import { Details } from './pages/details'
 
 const UserContext = createContext(null);
 
@@ -33,7 +35,7 @@ function ProtectedRoute({ element, ...rest }) {
   }, []);
 
   if (isLoading) {
-    return <Loading></Loading>;
+    return <LoadingIndicator/>;
   }
 
   return isAuthenticated ? element : <Navigate to="/signin" />;
@@ -41,14 +43,18 @@ function ProtectedRoute({ element, ...rest }) {
 
 function App() {
   const [user, setUser] = useState(null);
-  const [movies, setMovies] = useState(null); 
+  const [movies, setMovies] = useState(null);
+  const [selectedTab,setSelectedTab] = useState(null)
+  const [selectedMovie,setSelectedMovie] = useState(null)
 
   return (
-    <UserContext.Provider value={{ user, setUser, movies, setMovies }}>
+    <UserContext.Provider value={{ user, setUser, movies, setMovies, selectedTab, setSelectedTab, selectedMovie, setSelectedMovie}}>
       <Router>
         <Routes>
-          <Route element={<ProtectedRoute element={<Home />} />} path='/'/>
-          <Route element={<ProtectedRoute element={<MoviesPage />} />} path='/movies'/>
+          <Route element={<Home />} path='/'/>
+          <Route element={<MoviesPage />} path='/movies'/>
+          <Route element={<SeriesPage />} path='/tv'/>
+          <Route element={<Details/> } path='/details'/>
           <Route element={<Signin />} path='/signin'/>
           <Route element={<Signup />} path='/signup'/>
         </Routes>
@@ -56,11 +62,6 @@ function App() {
     </UserContext.Provider>
   )
 }
-const Loading = styled.div`
-    background-image: url('https://www.plex.tv/wp-content/uploads/2024/01/Watch-Free-Hero-2048x1152-3-1440x810.png');
-    background-color: black;
-    height: 100vh; 
-    width: 100vw; 
-`
+
 export default App
 export { UserContext }
