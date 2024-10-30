@@ -13,17 +13,19 @@ export const MoviesPage = () => {
     const { movies, setMovies } = useContext(UserContext);
     const [filter, setFilter] = useState("All"); 
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedPage, setSelectedPage] = useState(1);
-    const [pages, setPages] = useState([]);
-
-    useEffect(()=>{
+    const [selectedPage, setSelectedPage] = useState(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const pageNum = queryParams.get('page');
+        return pageNum ? Number(pageNum) : 1; 
+    });
+    const [pages, setPages] = useState([]);
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
         const pageGenre = queryParams.get('genre');
-        console.log(pageNum,pageGenre);
-        if (pageNum) setSelectedPage(pageNum);
         if (pageGenre) setFilter(pageGenre);
-    },[])
+    }, []);
+
     useEffect(() => {
         const totalPages = Math.ceil((movies?.length || 0) / 25);
         const pagesArray = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -49,11 +51,16 @@ export const MoviesPage = () => {
     useEffect(() => {
         window.history.pushState({}, '', `/movies?page=${selectedPage}`);
         window.scrollTo(0, 0);
+        const gridElement = document.querySelector('.movies-grid'); // Adjust the selector to match your grid
+        if (gridElement) {
+            gridElement.scrollTo(0, 0);
+        }
     }, [selectedPage]);
 
     if (isLoading) {
         return <LoadingIndicator></LoadingIndicator>;
     }
+
     const moviesPerPage = 25;
     const startIndex = (selectedPage - 1) * moviesPerPage;
     const endIndex = startIndex + moviesPerPage;
@@ -62,7 +69,7 @@ export const MoviesPage = () => {
     return (
         <MoviesContainer>
             <NavBar></NavBar>
-            <FilterBar setFilter={setFilter}></FilterBar>
+            <FilterBar setFilter={setFilter} setSelectedPage={setSelectedPage}></FilterBar>
             <MoviesList movies={moviesToDisplay} type={"Movie"} setSelectedPage={setSelectedPage}/>
             
             <Pagination>
@@ -71,16 +78,12 @@ export const MoviesPage = () => {
                     onClick={() => {
                         if (selectedPage > 1){
                             window.scrollTo(0, 0); 
-                            setSelectedPage(Number(selectedPage) - 1);
-                            
-                            
-                        };
+                            setSelectedPage(selectedPage - 1);
+                        }
                     }}
                 />
                 {
-                
                 pages.map((pageNum) => (
-            
                     <Page 
                         style={selectedPage === pageNum ? { border: "1px solid red" } : {}}
                         onClick={() => {  
@@ -94,7 +97,7 @@ export const MoviesPage = () => {
                 <PageArrow
                     onClick={() => {
                         if (selectedPage < pages.length){
-                            setSelectedPage(Number(selectedPage) + 1);
+                            setSelectedPage(selectedPage + 1);
                         }
                     }}
                     src={nextArrow}
