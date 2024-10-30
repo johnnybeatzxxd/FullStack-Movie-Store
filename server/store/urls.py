@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+
+
+
 urlpatterns = [
-    path('movies/top100', views.AllMovies, name='fetch'),
-    # path('signup', views.signup, name='signup'),
+    path('movies/top100', views.AllMovies, name='movies'),
+    path('series/top100', views.AllSeries, name='series'),
+
     
 ]
+
