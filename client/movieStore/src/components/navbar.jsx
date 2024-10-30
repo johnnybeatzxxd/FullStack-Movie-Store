@@ -17,7 +17,7 @@ export const NavBar = () => {
         <Tabs>
             <Tab 
                 onClick={()=>{window.location.href = '/movies';}}
-                style={window.location.href==`${FrontendUrl}/movies`?{color:"red"}:{}}>
+                style={window.location.href==`${FrontendUrl}/movies?page=1`?{color:"red"}:{}}>
                 Movies
             </Tab>
             <Tab 
@@ -25,14 +25,18 @@ export const NavBar = () => {
                 style={window.location.href==`${FrontendUrl}/tv`?{color:"red"}:{}}>
                 TV Shows
             </Tab>
-            <Tab 
-                style={window.location.href==`${FrontendUrl}/favorites`?{color:"red"}:{}}>
-                Favorites
-            </Tab>
-            <Tab 
-                style={window.location.href==`${FrontendUrl}/profile`?{color:"red"}:{}}>
-                Profile
-            </Tab>
+
+            <ProfileTab 
+                style={window.location.href==`${FrontendUrl}/favorites`?{color:"red"}:{border:"0px"}}>
+                Features
+            </ProfileTab>
+
+            <ProfileTab 
+                style={{backgroundColor:"red",color:"black"}}
+                onClick={() => window.open('https://github.com/johnnybeatzxxd', '_blank')}>
+                    Github
+            </ProfileTab>
+            
         </Tabs>
     </Navbar>
     )
@@ -97,7 +101,7 @@ const Tabs = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     border: 0px solid white;
     height: 100%;
     width: 35%;
@@ -116,3 +120,19 @@ const Tab = styled.div`
     }
 `
 
+const ProfileTab = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+    border-radius: 10px;
+    width: 70px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    &:hover{
+        color: red;
+    }
+    
+`

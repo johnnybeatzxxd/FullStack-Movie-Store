@@ -7,7 +7,7 @@ export const MoviesList = ({movies, type})=>{
 
     return (
         <>
-            <Body numberOfRows={numberOfRows}>
+            <Body className="movies-grid" numberOfRows={numberOfRows}>
                 {moviesToShow.map((movie, index) => {
                     const col = (index % 5) + 1;
                     const row = Math.floor(index / 5) + 1;

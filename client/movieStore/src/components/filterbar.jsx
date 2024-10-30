@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 
-export const FilterBar = ({setFilter})=>{
+export const FilterBar = ({setFilter,setSelectedPage})=>{
     const [selectedTab,setSelectedTab] = useState("All");
     const [genres,setGenres] = useState(["All","Animation","Crime","Drama","Adventure","Family","Biography","History","Comedy","War","Action","Thriller","Sci-Fi","Fantasy","Romance","Musical","Mystery"])
     useEffect(() => {
@@ -23,7 +23,12 @@ export const FilterBar = ({setFilter})=>{
                 {genres.map((genre, index) => (
                     <Tab 
                         style={selectedTab == genre?{color:"balck",background:"red",outline:"none"}:{}}
-                        onClick={()=>{setSelectedTab(genre);setFilter(genre)}}
+                        onClick={()=>{
+                            setSelectedTab(genre);
+                            setFilter(genre);
+                            setSelectedPage(1)
+                                
+                        }}
                         key={index}>{genre}</Tab>
                 ))}
             </Tabs>
