@@ -7,7 +7,7 @@ class Movies(models.Model):
     title = models.CharField(max_length=255)
     thumbnail = models.URLField()
     rating = models.CharField(max_length=4)
-    year = models.IntegerField()
+    year = models.CharField(max_length=20)
     image = models.URLField()
     big_image = models.URLField()
     description = models.TextField()
