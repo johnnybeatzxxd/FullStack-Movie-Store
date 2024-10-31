@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../App";
 import { NavBar } from "../components/navbar";
 import { FilterBar } from "../components/filterbar";
@@ -11,6 +11,7 @@ import nextArrow from '../assets/icons/next_arrow.svg';
 
 
 export const SeriesPage = () => {
+    const { searchValue } = useContext(UserContext);
     const [series, setSeries] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState("All"); 
@@ -34,26 +35,29 @@ export const SeriesPage = () => {
     }, [series]);
 
     useEffect(() => {
-        const fetchTop100Movies = async () => {
+        setSelectedPage(1);
+        const fetchTop100Series = async () => {
             try {
-                const topMovies = await getTopSeries(filter);
-                console.log('Top Movies:', topMovies);
-                setSeries(topMovies);
+                const topSeries = await getTopSeries(filter, null, searchValue);
+                console.log('Top Series:', topSeries);
+                setSeries(topSeries);
             } catch (error) {
-                console.error("Failed to fetch Top 100 movies:", error);
+                console.error("Failed to fetch Top 100 series:", error);
                 setSeries([]);
             } finally {
                 setIsLoading(false); 
             }
         };
-        fetchTop100Movies();
-    }, [filter]);
+        fetchTop100Series();
+    }, [filter, searchValue]);
 
     useEffect(() => {
-        window.history.pushState({}, '', `/tv?page=${selectedPage}`);
+        const queryParams = new URLSearchParams(window.location.search);
+        const query = queryParams.get('query');
+
+        window.history.pushState({}, '', `/tv?page=${selectedPage}&query=${query || ""}`);
         window.scrollTo(0, 0);
         
-        // Scroll the grid to the top
         const gridElement = document.querySelector('.movies-grid'); // Adjust the selector to match your grid
         if (gridElement) {
             gridElement.scrollTo(0, 0);
@@ -71,7 +75,7 @@ export const SeriesPage = () => {
 
     return(
         <Series>
-            <NavBar/>
+            <NavBar page="tv"/>
             <FilterBar setFilter={setFilter} setSelectedPage={setSelectedPage}/>
             <MoviesList movies={seriesToDisplay} type={"Series"}/>
                
@@ -113,7 +117,7 @@ const Series = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    max-height: 150vh;
+    height: 150vh;
     width: 100vw;
     background-image: url('https://www.plex.tv/wp-content/uploads/2024/01/Watch-Free-Hero-2048x1152-3-1440x810.png');
     color: white; 

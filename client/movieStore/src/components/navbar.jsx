@@ -1,33 +1,83 @@
 import styled from "styled-components";
 import searchIcon from '../assets/icons/search.svg'; 
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../App";
 
 const FrontendUrl = import.meta.env.VITE_FRONTEND_URL || '../'; 
-export const NavBar = () => {
-    const {selectedTab,setSelectedTab} = useContext(UserContext);
+export const NavBar = ({page}) => {
+    const {searchValue,setSearchValue} = useContext(UserContext);
+    const [query, setQuery] = useState('');
+    const [inputValue, setInputValue] = useState('');
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const query = queryParams.get('query');
+        if (query){
+            setSearchValue(query)
+            setQuery(query)
+        };
+    }, []);
+    useEffect(() => {
+        
+        if (page === "home" && query === "") return 
+        if (page === "details" && query === "") return 
+        if (page === "home") {
+            page = "movies";
+        } else if (page === "details") {
+            const currentUrl = new URL(window.location.href);
+            const category = currentUrl.searchParams.get('category');
+            
+            if (category === "Movie") {
+                page = "movies";
+            } else if (category === "Series") {
+                page = "tv";
+            }
+        }
+        const handler = setTimeout(() => {
+        if (query != null){
+            const currentUrl = new URL(window.location.href);
+            const isHomePage = currentUrl.pathname === '/';
+            const isDetailsPage = currentUrl.pathname === '/details';
+
+            if (isHomePage || isDetailsPage) { 
+                console.log("its details");
+                window.location.href = `${FrontendUrl}/${page}?query=${query}`;
+            }
+            window.history.pushState({}, '', `/${page}?page=${1}&query=${query}`);
+            setSearchValue(query);
+        }
+        }, 1000);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [query]);
+
     return(
     <Navbar>
         <Logo onClick={()=>{window.location.href = '/'}}>Movie<Logo style={{display:'inline',color:'red'}}>S</Logo>tore</Logo>
         <Spacer />
         <SearchBar>
             <img src={searchIcon} alt="Search" style={{ height: '20px'}} />
-            <SearchInput placeholder="Find Movies & Tv"></SearchInput>
+            <SearchInput 
+                placeholder="Find Movies & Tv"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+            ></SearchInput>
         </SearchBar>
         <Tabs>
             <Tab 
                 onClick={()=>{window.location.href = '/movies';}}
-                style={window.location.href==`${FrontendUrl}/movies?page=1`?{color:"red"}:{}}>
+                style={page=="movies"?{color:"red"}:{}}>
                 Movies
             </Tab>
             <Tab 
                 onClick={()=>{window.location.href = '/tv';}}
-                style={window.location.href==`${FrontendUrl}/tv`?{color:"red"}:{}}>
+                style={page=="tv"?{color:"red"}:{}}>
                 TV Shows
             </Tab>
 
             <ProfileTab 
-                style={window.location.href==`${FrontendUrl}/favorites`?{color:"red"}:{border:"0px"}}>
+                style={{border:0}}>
                 Features
             </ProfileTab>
 
@@ -53,7 +103,7 @@ const Navbar = styled.div`
     box-sizing: border-box;
 `
 
-const Logo = styled.p`
+const Logo = styled.p`  
     font-weight: 400;
     font-size: 1.5rem;
     font-family: "DM Serif Text", serif;
