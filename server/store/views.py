@@ -15,14 +15,21 @@ import json
 def AllMovies(req):
     genre = req.GET.get('genre')
     id = req.GET.get('id')
+    keyword = req.GET.get('keyword')
    
     if genre == "All":
         if id != "":
             movies = [Movies.objects.get(id=id)]     
         else:
-            movies = Movies.objects.all()
+            if keyword != "":
+                movies = Movies.objects.filter(title__icontains=keyword)
+            else:
+                movies = Movies.objects.all()
     else:
-        movies = Movies.objects.filter(genre__icontains=genre)
+        if keyword != "":
+                movies = Movies.objects.filter(title__icontains=keyword,genre__icontains=genre)
+        else:
+            movies = Movies.objects.filter(genre__icontains=genre)
     serialized_movies = MovieSerializer(movies, many=True).data
     return JsonResponse({"top100movies": serialized_movies}, status=200)
 
@@ -32,14 +39,24 @@ def AllSeries(req):
 
     genre = req.GET.get('genre')
     id = req.GET.get('id')
-
+    keyword = req.GET.get('keyword')
     if genre == "All":
         if id != "":
             series = [Series.objects.get(id=id)]
         else:
-            series = Series.objects.all()
+            if keyword != "":
+                series = Series.objects.filter(title__icontains=keyword,)
+            else:
+                series = Series.objects.all()
     else:
-        series = Series.objects.filter(genre__icontains=genre)
+        if keyword != "":
+            series = Series.objects.filter(title__icontains=keyword,genre__icontains=genre)
+        else:
+            series = Series.objects.filter(genre__icontains=genre)
     serialized_series = SeriesSerializer(series, many=True).data
     return JsonResponse({"top100series": serialized_series}, status=200)
     
+@csrf_exempt
+@require_GET
+def query(req):
+    return

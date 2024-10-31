@@ -11,8 +11,12 @@ node_modules
 dist
 dist-ssr
 *.local
-.pyc
-__pycache__
+
+__pycache__/
+*.pyc
+
+
+
 fetch_data_script.py
 # Editor directories and files
 .vscode/*
