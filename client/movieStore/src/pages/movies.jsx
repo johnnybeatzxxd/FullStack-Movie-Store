@@ -10,7 +10,7 @@ import backArrow from '../assets/icons/back_arrow.svg';
 import nextArrow from '../assets/icons/next_arrow.svg'; 
 
 export const MoviesPage = () => {
-    const { movies, setMovies } = useContext(UserContext);
+    const { movies, setMovies,searchValue } = useContext(UserContext);
     const [filter, setFilter] = useState("All"); 
     const [isLoading, setIsLoading] = useState(true);
     const [selectedPage, setSelectedPage] = useState(() => {
@@ -33,9 +33,10 @@ export const MoviesPage = () => {
     }, [movies]);
 
     useEffect(() => {
+        setSelectedPage(1)
         const fetchTop100Movies = async () => {
             try {
-                const topMovies = await getTopMovies(filter);
+                const topMovies = await getTopMovies(filter,null,searchValue);
                 console.log('Top Movies:', topMovies);
                 setMovies(topMovies);
             } catch (error) {
@@ -46,10 +47,13 @@ export const MoviesPage = () => {
             }
         };
         fetchTop100Movies();
-    }, [filter]);
+    }, [filter,searchValue]);
 
     useEffect(() => {
-        window.history.pushState({}, '', `/movies?page=${selectedPage}`);
+        const queryParams = new URLSearchParams(window.location.search);
+        const query = queryParams.get('query');
+
+        window.history.pushState({}, '', `/movies?page=${selectedPage}&query=${query || ""}`);
         window.scrollTo(0, 0);
         const gridElement = document.querySelector('.movies-grid'); // Adjust the selector to match your grid
         if (gridElement) {
@@ -68,7 +72,7 @@ export const MoviesPage = () => {
 
     return (
         <MoviesContainer>
-            <NavBar></NavBar>
+            <NavBar page="movies"/>
             <FilterBar setFilter={setFilter} setSelectedPage={setSelectedPage}></FilterBar>
             <MoviesList movies={moviesToDisplay} type={"Movie"} setSelectedPage={setSelectedPage}/>
             
