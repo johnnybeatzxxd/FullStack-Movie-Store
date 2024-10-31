@@ -8,12 +8,13 @@ import { NavBar } from "../components/navbar";
 
 
 export function Home(){
-    const {user, setUser} = useContext(UserContext);
+    const {user, setUser,searchValue,setSearchValue} = useContext(UserContext);
+    
     const navigate = useNavigate();
 
     return(
         <HomeContainer>
-            <NavBar/> 
+            <NavBar page="home"/> 
             <Header>
                 <MainText>
                     Top 100 Movies to Watch, Anytime Anywhere.

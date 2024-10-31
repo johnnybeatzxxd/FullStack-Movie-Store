@@ -55,7 +55,7 @@ export const Details = () => {
     }
     return (
         <DetailsContainer>
-            <NavBar/>
+            <NavBar page='details'/>
             <Body
                 url={movie.big_image}
                 style={{backgroundImage: `url(${movie["big_image"]})`}}>
