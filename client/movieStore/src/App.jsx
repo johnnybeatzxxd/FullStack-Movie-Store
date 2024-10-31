@@ -46,14 +46,16 @@ function App() {
   const [movies, setMovies] = useState(null);
   const [selectedTab,setSelectedTab] = useState(null)
   const [selectedMovie,setSelectedMovie] = useState(null)
+  const [searchValue,setSearchValue] = useState('')
 
   return (
-    <UserContext.Provider value={{ user, setUser, movies, setMovies, selectedTab, setSelectedTab, selectedMovie, setSelectedMovie}}>
+    <UserContext.Provider value={{ user, setUser, movies, setMovies, selectedTab, setSelectedTab, selectedMovie, setSelectedMovie,searchValue,setSearchValue}}>
       <Router>
         <Routes>
           <Route element={<Home />} path='/'/>
           <Route element={<MoviesPage />} path='/movies'/>
           <Route element={<SeriesPage />} path='/tv'/>
+          <Route element={<Details/> } path='/search'/>
           <Route element={<Details/> } path='/details'/>
           <Route element={<Signin />} path='/signin'/>
           <Route element={<Signup />} path='/signup'/>
