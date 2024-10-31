@@ -7,7 +7,6 @@ class JWTAuthenticationMiddleware:
         
 
     def __call__(self, request):
-        print("authenticating...")
         token = request.COOKIES.get('token') 
         if token:
             try:
