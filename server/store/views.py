@@ -6,9 +6,13 @@ from .models import Movies,Series
 from .serializers import MovieSerializer,SeriesSerializer
 from django.http import JsonResponse
 from .models import Movies,Series
+from dotenv import load_dotenv
+import os
 import json
 # from .fetch_data_script import fetch_top_100_movies,fetch_top_100_series
 # Create your views here.
+load_dotenv()
+frontend_url = os.getenv('DATABASE_NAME'),
 
 @csrf_exempt
 @require_GET
@@ -31,7 +35,9 @@ def AllMovies(req):
         else:
             movies = Movies.objects.filter(genre__icontains=genre)
     serialized_movies = MovieSerializer(movies, many=True).data
-    return JsonResponse({"top100movies": serialized_movies}, status=200)
+    response = JsonResponse({"top100movies": serialized_movies}, status=200)
+    response["Access-Control-Allow-Origin"] = frontend_url
+    return response
 
 @csrf_exempt
 @require_GET
@@ -54,7 +60,9 @@ def AllSeries(req):
         else:
             series = Series.objects.filter(genre__icontains=genre)
     serialized_series = SeriesSerializer(series, many=True).data
-    return JsonResponse({"top100series": serialized_series}, status=200)
+    response = JsonResponse({"top100series": serialized_series}, status=200)
+    response["Access-Control-Allow-Origin"] = frontend_url 
+    return response
     
 @csrf_exempt
 @require_GET
