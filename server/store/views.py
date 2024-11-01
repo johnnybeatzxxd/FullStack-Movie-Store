@@ -12,7 +12,8 @@ import json
 # from .fetch_data_script import fetch_top_100_movies,fetch_top_100_series
 # Create your views here.
 load_dotenv()
-frontend_url = os.getenv('DATABASE_NAME'),
+frontend_url = os.getenv('DATABASE_NAME')
+
 
 @csrf_exempt
 @require_GET
@@ -36,7 +37,9 @@ def AllMovies(req):
             movies = Movies.objects.filter(genre__icontains=genre)
     serialized_movies = MovieSerializer(movies, many=True).data
     response = JsonResponse({"top100movies": serialized_movies}, status=200)
-    response["Access-Control-Allow-Origin"] = frontend_url
+    response["Access-Control-Allow-Origin"] = "https://full-stack-movie-store.vercel.app"
+
+
     return response
 
 @csrf_exempt
@@ -61,7 +64,8 @@ def AllSeries(req):
             series = Series.objects.filter(genre__icontains=genre)
     serialized_series = SeriesSerializer(series, many=True).data
     response = JsonResponse({"top100series": serialized_series}, status=200)
-    response["Access-Control-Allow-Origin"] = frontend_url 
+    response["Access-Control-Allow-Origin"] = "https://full-stack-movie-store.vercel.app"
+
     return response
     
 @csrf_exempt
