@@ -22,8 +22,8 @@ ALLOWED_HOSTS = [".vercel.app",'127.0.0.1']
 
 
 CORS_ALLOWED_ORIGINS = [
-   "http://localhost:5173",
-   "https://full-stack-movie-store-6blijw0cz-johns-projects-fc5c1f72.vercel.app"
+   
+   "https://full-stack-movie-store-82rj28av2-johns-projects-fc5c1f72.vercel.app"
     
 ]
 
