@@ -8,7 +8,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -18,12 +17,13 @@ SECRET_KEY = 'django-insecure-f&3=sp9$gi_v)$sqb51(ddssv@uiz)nv^*w!7j3+o0c4g9)2ji
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app"]
+ALLOWED_HOSTS = [".vercel.app",'127.0.0.1']
 
 
 
 CORS_ALLOWED_ORIGINS = [
-   "http://localhost:5173"
+   "http://localhost:5173",
+    
 ]
 
 CORS_ALLOW_CREDENTIALS = True 
@@ -110,7 +110,7 @@ DATABASES = {
         }
     }
 }
-
+print(os.getenv('DATABASE_NAME'),os.getenv('DATABASE_USER'),os.getenv('DATABASE_PASSWORD'),os.getenv('DATABASE_HOST'),os.getenv('DATABASE_PORT'),)
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
