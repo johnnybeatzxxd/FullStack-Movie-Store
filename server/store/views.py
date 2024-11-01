@@ -37,8 +37,10 @@ def AllMovies(req):
             movies = Movies.objects.filter(genre__icontains=genre)
     serialized_movies = MovieSerializer(movies, many=True).data
     response = JsonResponse({"top100movies": serialized_movies}, status=200)
-    response["Access-Control-Allow-Origin"] = "https://full-stack-movie-store.vercel.app"
-
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
 
     return response
 
@@ -64,7 +66,10 @@ def AllSeries(req):
             series = Series.objects.filter(genre__icontains=genre)
     serialized_series = SeriesSerializer(series, many=True).data
     response = JsonResponse({"top100series": serialized_series}, status=200)
-    response["Access-Control-Allow-Origin"] = "https://full-stack-movie-store.vercel.app"
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
 
     return response
     
