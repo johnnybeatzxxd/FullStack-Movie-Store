@@ -23,7 +23,7 @@ ALLOWED_HOSTS = [".vercel.app",'127.0.0.1']
 
 CORS_ALLOWED_ORIGINS = [
    
-   "https://full-stack-movie-store.vercel.app/"
+   "https://full-stack-movie-store.vercel.app"
     
 ]
 
