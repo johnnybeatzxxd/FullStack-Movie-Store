@@ -1,0 +1,22 @@
+FROM python:3.9
+
+# Copy requirements file (copied to root of container)
+COPY requirements.txt .
+
+# Install dependencies (in root of container)
+RUN pip install -r requirements.txt
+
+# Copy entire project (into root of container)
+COPY . .
+
+# Run migrations (in root of container)
+RUN python manage.py migrate
+
+# Collect static files (in root of container)
+RUN python manage.py collectstatic --no-input
+
+# Expose port 8000
+EXPOSE 8000
+
+# Start Django server (in root of container)
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
