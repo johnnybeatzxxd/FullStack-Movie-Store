@@ -30,67 +30,63 @@ export function Home(){
 const HomeContainer = styled.div`
     background-image: url('https://www.plex.tv/wp-content/uploads/2024/01/Watch-Free-Hero-2048x1152-3-1440x810.png');
     background-color: black;
-    height: 100%; 
-    width: 100%; 
-    max-width: 100vw;
+    height: 100vh;
+    width: 100vw; 
     color: white; 
     display: flex; 
-    flex: 1;
     flex-direction: column; 
-    justify-content: flex-start; 
-    align-items: center;
-    
+    justify-content: start; 
+    align-items: flex-start;
+    padding-left: 20px; 
+    overflow: hidden; 
+    box-sizing: border-box; 
 `
 const Header = styled.div`
-    display: grid;
-    flex: 1 ;
-    grid-template-columns:repeat(10,1fr);
-    grid-template-rows: repeat(12,1fr);
-`
-const MainText = styled.p`
     display: flex;
-    grid-column: 2/6;
-    grid-row: 2/6;
+    flex-direction: column; 
+    flex: 1;
+    align-items: flex-start;
+    justify-content: center;
+    width: 50%;
+    height: auto; 
+    margin-left: 5%;
+    margin-right: auto;
+    @media (max-width: 796px) {
+        width:90% ;
+    }
+`
+
+const MainText = styled.p`
     font-size: 2.6rem;
-    justify-self: end;
-    align-self: end;
-    border: 0px solid white;
     font-weight: 600;
     font-family: "Merriweather", serif;
     margin: 0;
     line-height: 1.2;
-    white-space: pre-wrap; // Preserve spaces and line breaks
+    white-space: pre-wrap; 
 `
 
 const SubText = styled.div`
-    display: flex;
-    grid-column:2/6;
-    grid-row:6/7;
     font-size: 1.2rem;
-    justify-self: start;
-    align-self: start;
-    border: 0px solid white;
     font-weight: 300;
     font-family: "Merriweather", serif;
     margin: 0;
 `
+
 const MoviesButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-row: 7;
-    grid-column:2;
     width: 150px;
     height: 43px;
     margin-top: 9px;
     background-color: transparent;
     border: 1px solid red;
-    border-radius:15px ;
+    border-radius: 15px;
     font-family: "Merriweather", serif;
     font-weight: bold;
     font-size: 0.92rem;
-    color:red;
-    &:hover{
+    color: red;
+    &:hover {
         background-color: red;
         color: black;
         border: 1px solid black;

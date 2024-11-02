@@ -97,10 +97,13 @@ const Navbar = styled.div`
     flex-direction: row;
     background-color: #000000bb;
     height: 55px;
-    width: 100%;
+    width: 100vw;
     align-items: center;
-    padding-left: 50px;
+    //padding-left: 50px;
     box-sizing: border-box;
+    @media (max-width: 790px) { 
+        padding-left: 15px;
+    }
 `
 
 const Logo = styled.p`  
@@ -108,10 +111,11 @@ const Logo = styled.p`
     font-size: 1.5rem;
     font-family: "DM Serif Text", serif;
     cursor: pointer;
+
 `
 
 const Spacer = styled.div`
-    width: 80px;  
+    width:  5%;  
 `
 
 const SearchBar = styled.div`
@@ -124,12 +128,18 @@ const SearchBar = styled.div`
     font-family: "DM Serif Text", serif;
     font-weight: 100;
     border-radius: 12px;
-    border: 1px solid transparent;
+    border: 1px solid #80808037;
     height: 27px;
     width: 23%;
-    @media (max-width: 560px) { 
+    @media (max-width: 860px) { 
         flex: 1;
-        width:auto;
+        width:50%;
+        margin-right: 60px;
+        margin-left: 20px;
+    }
+    @media (max-width: 380px) { 
+        flex: 1;
+        width:40%;
         margin-right: 60px;
         margin-left: 20px;
     }
@@ -159,7 +169,7 @@ const Tabs = styled.div`
     color: #ffffff;
     font-weight: 500;
 
-    @media (max-width: 790px) { 
+    @media (max-width: 860px) { 
         display: none;
     }
 `
