@@ -37,7 +37,7 @@ const HomeContainer = styled.div`
     flex-direction: column; 
     justify-content: start; 
     align-items: flex-start;
-    padding-left: 20px; 
+    
     overflow: hidden; 
     box-sizing: border-box; 
 `

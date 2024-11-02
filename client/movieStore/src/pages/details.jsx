@@ -112,7 +112,7 @@ const Body = styled.div`
     height: 100%;
     background-position: right top;
     width: 100%;
-    background-repeat:repeat-x ;
+    background-repeat: repeat-x;
     &::before {
         content: '';
         position: absolute;
@@ -123,6 +123,14 @@ const Body = styled.div`
         background-position: left top;
         background: linear-gradient(to right, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0.846) 50%);
         z-index: 1; 
+    }
+
+    @media (max-width: 768px) {
+        background-size: 80%;
+    }
+
+    @media (max-width: 576px) {
+        background-size: 80% 80%;
     }
 `
 const Overlay = styled.div`
@@ -155,22 +163,54 @@ const MovieDetails = styled.div`
     
     white-space: normal; 
     word-wrap: break-word; 
+
+    @media (max-width: 768px) {
+        width: 80%;
+        padding-left: 20px;
+    }
+
+    @media (max-width: 576px) {
+        width: 90%;
+        padding-left: 10px;
+    }
 `
 const Title = styled.h1`
     font-weight: 500;
     border: 0px solid white;
-    margin:0
+    margin:0;
+    font-size: 2.5rem;
+
+    @media (max-width: 768px) {
+        font-size: 2.5rem;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 2.3rem;
+    }
 `
 const Description = styled.p`
     margin:20px 0 5px 0;
     font-size: 1.1rem;
-    `
+
+    @media (max-width: 768px) {
+        font-size: 1rem;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 0.9rem;
+    }
+`
 const SubDetails = styled.div`
     display: flex;
     margin:0;
     width: 80%;
     border: 0px solid red;
     gap:20px;
+
+    @media (max-width: 768px) {
+        
+        gap: 10px;
+    }
 `
 const Genres = styled.div`
     display: flex;
@@ -178,6 +218,11 @@ const Genres = styled.div`
     border: 0px solid red;
     gap:20px;
     margin-top: 20px;
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 `
 const Genre = styled.button`
     margin:0;    
@@ -186,7 +231,7 @@ const Genre = styled.button`
     &:hover{
         border: 1px solid red;
     }
-    `
+`
 const PlayButton = styled.button`
     display:flex ;
     justify-content: center;
@@ -203,4 +248,14 @@ const PlayButton = styled.button`
         border: 1px solid red;
         outline: none;
     }
-    `
+
+    @media (max-width: 768px) {
+        width: 120px;
+        height: 35px;
+    }
+
+    @media (max-width: 576px) {
+        width: 100px;
+        height: 30px;
+    }
+`

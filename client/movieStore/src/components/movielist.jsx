@@ -3,11 +3,14 @@ import styled from "styled-components";
 export const MoviesList = ({movies, type})=>{
     const maxMoviesToShow = 25;
     const moviesToShow = movies.slice(0, maxMoviesToShow);
-    const numberOfRows = Math.ceil(moviesToShow.length / 5);
+
+    const getNumberOfRows = (columns) => {
+        return Math.ceil(moviesToShow.length / columns);
+    };
 
     return (
         <>
-            <Body className="movies-grid" numberOfRows={numberOfRows}>
+            <Body className="movies-grid">
                 {moviesToShow.map((movie, index) => {
                     const col = (index % 5) + 1;
                     const row = Math.floor(index / 5) + 1;
@@ -40,6 +43,26 @@ const Body = styled.div`
     padding-top: 20px;
     overflow-y: auto;
     overflow-x: hidden;
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(4, 22%);
+        grid-template-rows: ${({ numberOfRows }) => `repeat(${Math.ceil(numberOfRows * 5 / 4)}, 380px)`}; 
+    }
+
+    @media (max-width: 992px) {
+        grid-template-columns: repeat(3, 30%);
+        grid-template-rows: ${({ numberOfRows }) => `repeat(${Math.ceil(numberOfRows * 5 / 3)}, 380px)`}; 
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 45%);
+        grid-template-rows: ${({ numberOfRows }) => `repeat(${Math.ceil(numberOfRows * 5 / 2)}, 380px)`}; 
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: repeat(2 , 45%);
+        grid-template-rows: ${({ numberOfRows }) => `repeat(${Math.ceil(numberOfRows * 5 / 2)}, 380px)`}; 
+    }
 `
 
 const Card = styled.div`
@@ -49,6 +72,7 @@ const Card = styled.div`
     border-radius: 16px;
     cursor: pointer;
     flex: 1;
+    max-height: 450px;
     &:hover{
         border: 0 solid red;
         color: red;

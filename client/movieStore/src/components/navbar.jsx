@@ -99,7 +99,7 @@ const Navbar = styled.div`
     height: 55px;
     width: 100vw;
     align-items: center;
-    //padding-left: 50px;
+    padding-left: 50px;
     box-sizing: border-box;
     @media (max-width: 790px) { 
         padding-left: 15px;
@@ -110,6 +110,7 @@ const Logo = styled.p`
     font-weight: 400;
     font-size: 1.5rem;
     font-family: "DM Serif Text", serif;
+    
     cursor: pointer;
 
 `
