@@ -79,6 +79,12 @@ const Card = styled.div`
         transform: scale(1.06);
     
     }
+    @media (max-width: 576px) {
+        max-height: 300px;
+}    
+@media (max-width: 768px) {
+        max-height: 450px;
+}
 `
 const MovieImage = styled.img`
     display: flex;

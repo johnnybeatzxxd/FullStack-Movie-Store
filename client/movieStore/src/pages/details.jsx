@@ -121,17 +121,25 @@ const Body = styled.div`
         width: 100%;
         height: 100%;
         background-position: left top;
-        background: linear-gradient(to right, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0.846) 50%);
+        background: linear-gradient(to right, #000000fa 40%, rgba(0, 0, 0, 0.846) 50%);
         z-index: 1; 
     }
 
     @media (max-width: 768px) {
         background-size: 80%;
+        &::before {
+            background-position: left top;
+            background: linear-gradient(to right, #000000f6 30%, rgba(0, 0, 0, 0.846) 50%);
+    }
     }
 
     @media (max-width: 576px) {
-        background-size: 80% 80%;
+        background-size: 90% 100%;
+        &::before {
+            background-position: left top;
+            background: linear-gradient(to right, #000000f3 30%, rgba(0, 0, 0, 0.846) 80%);
     }
+        }
 `
 const Overlay = styled.div`
     display: flex;
