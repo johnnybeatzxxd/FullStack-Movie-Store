@@ -164,7 +164,7 @@ const SearchBar = styled.div`
         margin-right: 60px;
         margin-left: 20px;
     }
-    @media (max-width: 380px) { 
+    @media (max-width: 390px) { 
         flex: 1;
         width:40%;
         margin-right: 60px;
