@@ -6,10 +6,15 @@ import { UserContext } from "../App";
 import { getTopMovies } from "../utils/fetch-data";
 import { getTopSeries } from "../utils/fetch-data";
 import { LoadingIndicator } from "../components/loading";
+import { Menu } from "../components/drawer";
+
 export const Details = () => {
     //const {selectedMovie,setSelectedMovie} = useContext(UserContext);
     const [movie,setMovie] = useState(null)
     const [isLoading, setIsLoading] = useState(true);
+    const [drawer, setDrawer] = useState(false)
+
+    
     useEffect(()=>{
     const queryParams = new URLSearchParams(window.location.search);
     const movieId = queryParams.get('id');
@@ -55,7 +60,8 @@ export const Details = () => {
     }
     return (
         <DetailsContainer>
-            <NavBar page='details'/>
+            <NavBar page='details' setDrawer={setDrawer}/>
+          
             <Body
                 url={movie.big_image}
                 style={{backgroundImage: `url(${movie["big_image"]})`}}>
@@ -75,9 +81,11 @@ export const Details = () => {
                     </MovieDetails>
                 </Overlay>
             </Body>
+           <Menu drawer={drawer} setDrawer={setDrawer}/>
         </DetailsContainer>
     )
 }
+
 const DetailsContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -137,7 +145,7 @@ const Body = styled.div`
         background-size: 90% 100%;
         &::before {
             background-position: left top;
-            background: linear-gradient(to right, #000000f3 30%, rgba(0, 0, 0, 0.846) 80%);
+            background: linear-gradient(to right, #000000eb 30%, rgba(0, 0, 0, 0.846) 80%);
     }
         }
 `

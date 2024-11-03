@@ -4,17 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { signout } from "../utils/authentication";
 import styled from "styled-components";
 import { NavBar } from "../components/navbar";
-
+import { Menu } from "../components/drawer";
 
 
 export function Home(){
     const {user, setUser,searchValue,setSearchValue} = useContext(UserContext);
     
     const navigate = useNavigate();
-
+    const [drawer, setDrawer] = useState(false)
     return(
         <HomeContainer>
-            <NavBar page="home"/> 
+            <NavBar page="home" setDrawer={setDrawer}/> 
+            <Menu drawer={drawer} setDrawer={setDrawer}/>
             <Header>
                 <MainText>
                     Top 100 Movies to Watch, Anytime Anywhere.
@@ -22,7 +23,6 @@ export function Home(){
                 <SubText>The search is over! Let Plex help you find the perfect movie to watch tonight for free.</SubText>
                 <MoviesButton onClick={()=>{window.location.href = '/movies'}}>Watch Movies</MoviesButton>
             </Header>
-  
         </HomeContainer>    
     );
 }

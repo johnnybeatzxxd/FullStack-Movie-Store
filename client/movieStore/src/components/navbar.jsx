@@ -1,13 +1,22 @@
 import styled from "styled-components";
 import searchIcon from '../assets/icons/search.svg'; 
+import menuIcon from '../assets/icons/menu.svg'; 
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../App";
+import React from "react";
 
 const FrontendUrl = import.meta.env.VITE_FRONTEND_URL || '../'; 
-export const NavBar = ({page}) => {
+export const NavBar = ({page,setDrawer}) => {
     const {searchValue,setSearchValue} = useContext(UserContext);
     const [query, setQuery] = useState('');
     const [inputValue, setInputValue] = useState('');
+    
+    const [isOpen, setIsOpen] = useState(false)
+    const toggleDrawer = () => {
+        setDrawer((prevState) => !prevState)
+    }
+    
+    
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const query = queryParams.get('query');
@@ -54,7 +63,10 @@ export const NavBar = ({page}) => {
 
     return(
     <Navbar>
+        <DrawerButton onClick={toggleDrawer} src={menuIcon}></DrawerButton>
         <Logo onClick={()=>{window.location.href = '/'}}>Movie<Logo style={{display:'inline',color:'red'}}>S</Logo>tore</Logo>
+        
+        
         <Spacer />
         <SearchBar>
             <img src={searchIcon} alt="Search" style={{ height: '20px'}} />
@@ -105,7 +117,21 @@ const Navbar = styled.div`
         padding-left: 15px;
     }
 `
-
+const DrawerButton = styled.img`
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    @media (max-width: 860px) { 
+        display: block;
+        width:20px;
+        height:20px;
+        margin-right: 10px;
+    }
+`;
 const Logo = styled.p`  
     font-weight: 400;
     font-size: 1.5rem;

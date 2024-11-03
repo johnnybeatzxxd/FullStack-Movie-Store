@@ -8,7 +8,7 @@ import { LoadingIndicator } from "../components/loading";
 import { MoviesList } from "../components/movielist";
 import backArrow from '../assets/icons/back_arrow.svg'; 
 import nextArrow from '../assets/icons/next_arrow.svg'; 
-
+import { Menu } from "../components/drawer";
 
 export const SeriesPage = () => {
     const { searchValue } = useContext(UserContext);
@@ -21,7 +21,7 @@ export const SeriesPage = () => {
         return pageNum ? Number(pageNum) : 1;
     });
     const [pages, setPages] = useState([]);
-
+    const [drawer, setDrawer] = useState(false)
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const pageGenre = queryParams.get('genre');
@@ -75,7 +75,7 @@ export const SeriesPage = () => {
 
     return(
         <Series>
-            <NavBar page="tv"/>
+            <NavBar page="tv" setDrawer={setDrawer}/>
             <FilterBar setFilter={setFilter} setSelectedPage={setSelectedPage}/>
             <MoviesList movies={seriesToDisplay} type={"Series"}/>
                
@@ -110,6 +110,7 @@ export const SeriesPage = () => {
                     src={nextArrow}
                 />
             </Pagination>
+            <Menu drawer={drawer} setDrawer={setDrawer}/>
         </Series>
     )
 }
